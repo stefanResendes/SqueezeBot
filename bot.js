@@ -2,6 +2,9 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require("./config.json");
 
+var server = config.testserver;
+var musicFile = config.musicfile;
+
 client.on("ready", () => {
     console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`); 
     client.user.setActivity(`Serving ${client.guilds.size} servers`);
@@ -21,19 +24,26 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     let newUserChannel = newMember.voiceChannel
     let oldUserChannel = oldMember.voiceChannel
 
-    console.log(oldMember);
-    console.log(newMember);
+    var newUserName = newMember.user.username;
+    var oldUserName = oldMember.user.username;
     
     if(oldUserChannel === undefined && newUserChannel !== undefined) {
-
 	// User Joins a voice channel
-	console.log('Join');
+	//client.channels.get(server).send(newUserName + ' joined');
 
+	//newMember.voiceChannel.join();
+	    // .then(connection => {
+	    // 	console.log('Connected');
+	    // 	const dispatcher = connection.playFile(musicFile);
+	    // })
+	    // .catch(console.log);
+
+	
     } else if(newUserChannel === undefined){
-
 	// User leaves a voice channel
-	console.log('Leave');
+	//client.channels.get(server).send(newUserName + ' left');
 
+	//oldMember.voiceChannel.leave();
     }
 });
 
@@ -46,6 +56,19 @@ client.on("message", async message => {
     
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
+
+    if(command === "play") {
+	console.log(message.member.voiceChannel);
+	message.member.voiceChannel.join()
+	    .then(connection => {
+		const dispatcher = connection.playFile(musicFile);
+	    })
+	    .catch(console.log);
+    }
+    
+    if(command === "stop") {
+	message.member.voiceChannel.leave()
+    }
     
     if(command === "ping") {
 	const m = await message.channel.send("Ping?");
@@ -56,45 +79,6 @@ client.on("message", async message => {
 	const sayMessage = args.join(" ");
 	message.delete().catch(O_o=>{}); 
 	message.channel.send(sayMessage);
-    }
-    
-    if(command === "kick") {
-	if(!message.member.roles.some(r=>["Administrator", "Moderator"].includes(r.name)) )
-	    return message.reply("Sorry, you don't have permissions to use this!");
-	
-	let member = message.mentions.members.first() || message.guild.members.get(args[0]);
-
-	if(!member)
-	    return message.reply("Please mention a valid member of this server");
-	if(!member.kickable) 
-	    return message.reply("I cannot kick this user! Do they have a higher role? Do I have kick permissions?");
-
-	let reason = args.slice(1).join(' ');
-	if(!reason)
-	    reason = "No reason provided";
-
-	await member.kick(reason)
-	    .catch(error => message.reply(`Sorry ${message.author} I couldn't kick because of : ${error}`));
-	message.reply(`${member.user.tag} has been kicked by ${message.author.tag} because: ${reason}`);
-    }
-    
-    if(command === "ban") {
-	if(!message.member.roles.some(r=>["Administrator"].includes(r.name)) )
-	    return message.reply("Sorry, you don't have permissions to use this!");
-	
-	let member = message.mentions.members.first();
-	if(!member)
-	    return message.reply("Please mention a valid member of this server");
-	if(!member.bannable) 
-	    return message.reply("I cannot ban this user! Do they have a higher role? Do I have ban permissions?");
-	
-	let reason = args.slice(1).join(' ');
-	if(!reason)
-	    reason = "No reason provided";
-	
-	await member.ban(reason)
-	    .catch(error => message.reply(`Sorry ${message.author} I couldn't ban because of : ${error}`));
-	message.reply(`${member.user.tag} has been banned by ${message.author.tag} because: ${reason}`);
     }
     
     if(command === "purge") {
