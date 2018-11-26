@@ -7,12 +7,7 @@ var server = config.testserver;
 var musicFile = config.musicfile;
 
 //obj array that is for login and logout audio clips
-const squeezeUsers = [
-    { userName: 'tylerweis34', introLink: 'https://www.youtube.com/watch?v=21EA2F3Y8Lk', outroLink: '' },
-    { userName: 'YimmyNeutron', introLink: '', outroLink: '' },
-    { userName: 'YaBoiSqueeze', introLink: '', outroLink: '' },
-    { userName: 'TheJTanMan', introLink: '', outroLink: '' }
-];
+const squeezeUsers = require("./squeezeUsers.json");
 
 client.on("ready", () => {
     console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`); 
@@ -35,8 +30,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
     var newUserName = newMember.user.username;
     var oldUserName = oldMember.user.username;
-    console.log(newUserName);
-    console.log(oldUserName);
+
     if(oldUserChannel === undefined && newUserChannel !== undefined) {
 	    // User Joins a voice channel
         //play introLink
