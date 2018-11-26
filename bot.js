@@ -6,6 +6,14 @@ const config = require("./config.json");
 var server = config.testserver;
 var musicFile = config.musicfile;
 
+//obj array that is for login and logout audio clips
+const squeezeUsers = [
+    { userName: 'tylerweis34', introLink: 'https://www.youtube.com/watch?v=21EA2F3Y8Lk', outroLink: '' },
+    { userName: 'YimmyNeutron', introLink: '', outroLink: '' },
+    { userName: 'YaBoiSqueeze', introLink: '', outroLink: '' },
+    { userName: 'TheJTanMan', introLink: '', outroLink: '' }
+];
+
 client.on("ready", () => {
     console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`); 
     client.user.setActivity(`Serving ${client.guilds.size} servers`);
@@ -22,17 +30,25 @@ client.on("guildDelete", guild => {
 });
 
 client.on('voiceStateUpdate', (oldMember, newMember) => {
-    let newUserChannel = newMember.voiceChannel
-    let oldUserChannel = oldMember.voiceChannel
+    let newUserChannel = newMember.voiceChannel;
+    let oldUserChannel = oldMember.voiceChannel;
 
     var newUserName = newMember.user.username;
     var oldUserName = oldMember.user.username;
-    
+    console.log(newUserName);
+    console.log(oldUserName);
     if(oldUserChannel === undefined && newUserChannel !== undefined) {
-	// User Joins a voice channel
-	//client.channels.get(server).send(newUserName + ' joined');
+	    // User Joins a voice channel
+        //play introLink
+        let user = returnUser(newUserName);
+        newMember.voiceChannel.join()
+            .then(connection => {
+                playAudioFromYoutube(connection, user.introLink);
+            });
 
-	//newMember.voiceChannel.join();
+	    //client.channels.get(server).send(newUserName + ' joined');
+
+	    //newMember.voiceChannel.join();
 	    // .then(connection => {
 	    // 	console.log('Connected');
 	    // 	const dispatcher = connection.playFile(musicFile);
@@ -49,56 +65,57 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
 client.on("message", async message => {
     if(message.author.bot)
-	return;
+	    return;
     
     if(message.content.indexOf(config.prefix) !== 0)
-	return;
+	    return;
     
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
     if(command === "play") {
-	console.log(message.member.voiceChannel);
-	const link = args.join(" ");
-	console.log(link);
-	if (link === "demo") {
-	    message.member.voiceChannel.join()
-		.then(connection => {
-		    const dispatcher = connection.playFile(musicFile);
-		})
-		.catch(console.log);
-	} else if (link !== "") {
-	    //YouTube
-	    
+	    console.log(message.member.voiceChannel);
+	    const link = args.join(" ");
 	    console.log(link);
-	    message.member.voiceChannel.join()
-		.then(connection => {
-	     	    const stream = ytdl(link, {filter: 'audioonly'});
-		    const streamOptions = {seek: 0, volume: 1};
-		    const dispatcher = connection.playStream(stream, streamOptions);;
+	    if (link === "demo") {
+	        message.member.voiceChannel.join()
+		    .then(connection => {
+		        const dispatcher = connection.playFile(musicFile);
+		    })
+		    .catch(console.log);
+	    } else if (link !== "") {
+	        //YouTube
+	    
+	        console.log(link);
+	        message.member.voiceChannel.join()
+		    .then(connection => {
+	     	   // const stream = ytdl(link, {filter: 'audioonly'});
+		        //const streamOptions = {seek: 0, volume: 1};
+		        //const dispatcher = connection.playStream(stream, streamOptions);
+                playAudioFromYoutube(connection, link);
 	     	})
 	     	.catch(console.log);
 	    
-	}
+	    }
     }
     
     if(command === "stop") {
-	message.member.voiceChannel.leave()
+	    message.member.voiceChannel.leave()
     }
     
     if(command === "ping") {
-	const m = await message.channel.send("Ping?");
-	m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
+	    const m = await message.channel.send("Ping?");
+	    m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
     }
     
     if(command === "say") {
-	const sayMessage = args.join(" ");
-	message.delete().catch(O_o=>{}); 
-	message.channel.send(sayMessage);
+	    const sayMessage = args.join(" ");
+	    message.delete().catch(O_o=>{}); 
+	    message.channel.send(sayMessage);
     }
     
     if(command === "purge") {
-	const deleteCount = parseInt(args[0], 10);
+	    const deleteCount = parseInt(args[0], 10);
 	
 	if(!deleteCount || deleteCount < 2 || deleteCount > 100)
 	    return message.reply("Please provide a number between 2 and 100 for the number of messages to delete");
@@ -110,3 +127,16 @@ client.on("message", async message => {
 });
 
 client.login(config.token);
+
+
+//get new user
+function returnUser(userName) {
+    return squeezeUsers.find(su => su.userName === userName);
+}
+//play audio clip from youtube
+function playAudioFromYoutube(connection, link) {
+    const stream = ytdl(link, { filter: 'audioonly' });
+    const streamOptions = { seek: 0, volume: 1 };
+    const dispatcher = connection.playStream(stream, streamOptions);
+}
+
