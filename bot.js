@@ -36,9 +36,9 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
         let user = returnUser(newUserName);
         newMember.voiceChannel.join()
             .then(connection => {
-                playAudioFromYoutube(connection, user.introLink);
+                playAudioFromYoutube(connection, user.introLink, newMember.voiceChannelID);
             })
-	.catch(console.log);
+	        .catch(console.log);
 	
 
 	//client.channels.get(server).send(newUserName + ' joined');
@@ -60,37 +60,36 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
 client.on("message", async message => {
     if(message.author.bot)
-	return;
+	    return;
     
     if(message.content.indexOf(config.prefix) !== 0)
-	return;
+	    return;
     
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
     if(command === "play") {
-	console.log(message.member.voiceChannel);
-    const link = args.join(" ");
-	if (link === "demo") {
-	    message.member.voiceChannel.join()
-		.then(connection => {
-		    const dispatcher = connection.playFile(musicFile);
-		})
-		.catch(console.log);
-	} else if (link !== "") {
-	    //YouTube
+        const link = args.join(" ");
+	    if (link === "demo") {
+	        message.member.voiceChannel.join()
+		    .then(connection => {
+		        const dispatcher = connection.playFile(musicFile);
+		    })
+		    .catch(console.log);
+	    } else if (link !== "") {
+	        //YouTube
 	    
-	    message.member.voiceChannel.join()
-		.then(connection => {
-                    playAudioFromYoutube(connection, link);
+	        message.member.voiceChannel.join()
+		    .then(connection => {
+                playAudioFromYoutube(connection, link, message.member.voiceChannelID);
 	     	})
 	     	.catch(console.log);
 	    
-	}
+	    }
     }
     
     if(command === "stop") {
-	message.member.voiceChannel.leave()
+        message.member.voiceChannel.leave();
     }
     
     if(command === "ping") {
@@ -107,9 +106,16 @@ function returnUser(userName) {
     return squeezeUsers.find(su => su.userName === userName);
 }
 //play audio clip from youtube
-function playAudioFromYoutube(connection, link) {
-    const stream = ytdl(link, { filter: 'audioonly' });
-    const streamOptions = { seek: 0, volume: 1 };
-    const dispatcher = connection.playStream(stream, streamOptions);
+async function playAudioFromYoutube(connection, link, channelId) {
+    console.log(link);
+    let stream = ytdl(link, { filter: 'audioonly' });
+    let streamOptions = { seek: 0, volume: 1 };
+    
+    let dispatcher = await connection.playStream(stream, streamOptions);
+
+    dispatcher.on("end", end => {
+        console.log("ended " + channelId);
+        connection.disconnect();
+    })
 }
 
