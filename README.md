@@ -1,6 +1,9 @@
 # SqueezeBot
 SqueezeBot is a colab-creation by Mushroom Studios.
 
+To run bot:
+1. node bot.js
+
 To get this running:
 1. npm init -y
 2. npm install discord.js
