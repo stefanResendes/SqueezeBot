@@ -1,0 +1,27 @@
+{
+  "name": "SqueezeBot",
+  "version": "1.0.0",
+  "description": "SqueezeBot is a colab-creation by Mushroom Studios.",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stefanResendes/SqueezeBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stefanResendes/SqueezeBot/issues"
+  },
+  "homepage": "https://github.com/stefanResendes/SqueezeBot#readme",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "ffmpeg-binaries": "^4.0.0",
+    "node-opus": "^0.3.1",
+    "opusscript": "0.0.6",
+    "ytdl-core": "^0.28.0"
+  }
+}
