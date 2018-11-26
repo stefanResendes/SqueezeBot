@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const ytdl =  require('ytdl-core');
 const client = new Discord.Client();
 const config = require("./config.json");
 
@@ -38,7 +39,6 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 	    // })
 	    // .catch(console.log);
 
-	
     } else if(newUserChannel === undefined){
 	// User leaves a voice channel
 	//client.channels.get(server).send(newUserName + ' left');
@@ -59,11 +59,27 @@ client.on("message", async message => {
 
     if(command === "play") {
 	console.log(message.member.voiceChannel);
-	message.member.voiceChannel.join()
-	    .then(connection => {
-		const dispatcher = connection.playFile(musicFile);
-	    })
-	    .catch(console.log);
+	const link = args.join(" ");
+	console.log(link);
+	if (link === "demo") {
+	    message.member.voiceChannel.join()
+		.then(connection => {
+		    const dispatcher = connection.playFile(musicFile);
+		})
+		.catch(console.log);
+	} else if (link !== "") {
+	    //YouTube
+	    
+	    console.log(link);
+	    message.member.voiceChannel.join()
+		.then(connection => {
+	     	    const stream = ytdl(link, {filter: 'audioonly'});
+		    const streamOptions = {seek: 0, volume: 1};
+		    const dispatcher = connection.playStream(stream, streamOptions);;
+	     	})
+	     	.catch(console.log);
+	    
+	}
     }
     
     if(command === "stop") {
