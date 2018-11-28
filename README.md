@@ -11,6 +11,7 @@ To get this running:
 To get music playback working:
 1. npm install ffmpeg-binaries
 2. npm install opusscript
+3. npm install ytdl-core
 
 Notes:
 Opusscript will need to be changed to node-opus for better performance
