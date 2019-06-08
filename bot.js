@@ -83,23 +83,19 @@ function stratRoulette(position) {
     // Getting random number. This seems really complicated but its what the internet told me to do
     var min = 1;
     var max = 0;
-    console.log(position);
     if (position === "attack") {
 	max = 21;
     } else if (position === "defense") {
 	max = 32;
     }
-    console.log(max);
     var random = Math.floor(Math.random() * (+max - +min)) + +min;
     let strat = "";
-    console.log(random);
     if (position === "attack") {
 	strat = attackStrats[random];
 	console.log(strat);
     } else if (position === "defense") {
 	strat = defenseStrats[random];
     }
-    console.log(strat.name);
     return strat.name;
 }
 
