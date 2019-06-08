@@ -30,7 +30,8 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
     var newUserName = newMember.user.username;
     var oldUserName = oldMember.user.username;
-    if(oldUserChannel === undefined && newUserChannel !== undefined && newUserName !== 'SqueezeBot') {
+
+    if(oldUserChannel === undefined && newUserChannel !== undefined && newUserName !== "SqueezeBot") {
 	// User Joins a voice channel
         //play introLink
         let user = returnUser(newUserName);
@@ -69,8 +70,7 @@ client.on("message", async message => {
     const command = args.shift().toLowerCase();
 
     if(command === "play") {
-	console.log(message.member.voiceChannel);
-    const link = args.join(" ");
+	const link = args.join(" ");
 	if (link === "demo") {
 	    message.member.voiceChannel.join()
 		.then(connection => {
