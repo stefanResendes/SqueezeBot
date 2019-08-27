@@ -16,3 +16,20 @@ To get music playback working:
 Notes:
 Opusscript will need to be changed to node-opus for better performance
 -npm install node-opus
+
+
+
+
+
+
+new stuff
+
+download at least node v 10 from here...
+
+npm install
+
+used this example https://discordjs.guide/popular-topics/miscellaneous-examples.html#play-music-from-youtube
+
+followed some of the discord.js example
+
+https://github.com/discordjs/discord.js
