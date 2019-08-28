@@ -3,11 +3,18 @@ const Discord = require('discord.js');
 const ytdl = require('ytdl-core');
 
 const client = new Discord.Client();
-const queue = new Map();
+
+const queue = {
+    songList: [],
+    isPlaying: false
+};
+
+//const queue = [];
+const playingMusic = false;
 
 client.on("ready", () => {
-    console.log('Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.');
-    client.user.setActivity('Serving ${client.guilds.size} servers');
+    console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
+    client.user.setActivity(`Serving ${client.guilds.size} servers`);
 });
 
 client.on('message', message => {
@@ -28,22 +35,38 @@ client.on('message', message => {
     switch (command) {
         case 'play':
             //youtube
-            voiceChannel.join().then(connection => {
-                const stream = ytdl(link, { filter: 'audioonly', quality: 'highestaudio', volume: '.75' });
-                const dispatcher = connection.play(stream);
-
-                dispatcher.on('end', () => voiceChannel.leave());
-            });
+            queue.isPlaying ? queue.songList.push(link) : playYoutube(voiceChannel, link);
             break;
         case "skip":
+            skipSong(voiceChannel);
             break;
         case "stop":
-            voiceChannel.leave();
+            stopMusic(voiceChannel);
             break;
     }
 
 });
 
+playYoutube = (voiceChannel, link) => {
+    queue.isPlaying = true;
+    voiceChannel.join().then(connection => {
+        const stream = ytdl(link, { filter: 'audioonly', quality: 'highestaudio', volume: '.75' });
+        voiceChannel.dispatcher = connection.play(stream);
+
+        voiceChannel.dispatcher.on('end', () => {
+            queue.songList.length > 0 ? playYoutube(voiceChannel, queue.songList.shift()) : stopMusic(voiceChannel);
+        });
+    });
+};
+
+stopMusic = (voiceChannel) => {
+    queue.isPlaying = false;
+    voiceChannel.leave();
+};
+
+skipSong = (voiceChannel) => {
+    voiceChannel.dispatcher.end();
+};
 
 process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
 
