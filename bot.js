@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
-const ytdl =  require('ytdl-core');
+const ytdl = require('ytdl-core');
+//const ytdlDiscord = require('ytdl-core-discord');
 const client = new Discord.Client();
 const config = require("./config.json");
 
@@ -7,7 +8,7 @@ var server = config.testserver;
 var musicFile = config.musicfile;
 var voiceChannel = null;
 var ytAudioQueue = [];
-var playingAudio = false; 
+var playingAudio = false;
 
 //obj array that is for login and logout audio clips
 const squeezeUsers = require("./squeezeUsers.json");
@@ -15,7 +16,7 @@ const attackStrats = require("./attackStrats.json");
 const defenseStrats = require("./defenseStrats.json");
 
 client.on("ready", () => {
-    console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`); 
+    console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
     client.user.setActivity(`Serving ${client.guilds.size} servers`);
 });
 
@@ -46,77 +47,77 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     var newUserName = newMember.user.username;
     var oldUserName = oldMember.user.username;
 
-    if(oldUserChannel === undefined && newUserChannel !== undefined && newUserName !== "SqueezeBot") {
-	// User Joins a voice channel
+    if (oldUserChannel === undefined && newUserChannel !== undefined && newUserName !== "SqueezeBot") {
+        // User Joins a voice channel
         //play introLink
         let user = returnUser(newUserName);
         newMember.voiceChannel.join()
             .then(connection => {
                 playAudioFromYoutube(connection, user.introLink);
             })
-	.catch(console.log);
-	
+            .catch(console.log);
 
-	//client.channels.get(server).send(newUserName + ' joined');
 
-	//newMember.voiceChannel.join();
-	// .then(connection => {
-	// 	console.log('Connected');
-	// 	const dispatcher = connection.playFile(musicFile);
-	// })
-	// .catch(console.log);
+        //client.channels.get(server).send(newUserName + ' joined');
 
-    } else if(newUserChannel === undefined){
-	// User leaves a voice channel
-	//client.channels.get(server).send(newUserName + ' left');
+        //newMember.voiceChannel.join();
+        // .then(connection => {
+        // 	console.log('Connected');
+        // 	const dispatcher = connection.playFile(musicFile);
+        // })
+        // .catch(console.log);
 
-	//oldMember.voiceChannel.leave();
+    } else if (newUserChannel === undefined) {
+        // User leaves a voice channel
+        //client.channels.get(server).send(newUserName + ' left');
+
+        //oldMember.voiceChannel.leave();
     }
 });
 
 client.on("message", async message => {
-    if(message.author.bot || message.content.indexOf(config.prefix) !== 0)
-	return;
-    
+    if (message.author.bot || message.content.indexOf(config.prefix) !== 0)
+        return;
+
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
-    if(command === "play") {
-	const link = args.join(" ");
-	if (link === "demo") {
-	    message.member.voiceChannel.join()
-		.then(connection => {
-		    const dispatcher = connection.playFile(musicFile);
-		})
-		.catch(console.log);
-	} else if (link !== "") {
-	    //YouTube
-	    
-	    message.member.voiceChannel.join()
-		.then(connection => {
+    if (command === "play") {
+        const link = args.join(" ");
+        if (link === "demo") {
+            message.member.voiceChannel.join()
+                .then(connection => {
+                    const dispatcher = connection.playFile(musicFile);
+                })
+                .catch(console.log);
+        } else if (link !== "") {
+            //YouTube
+
+            message.member.voiceChannel.join()
+                .then(connection => {
                     playAudioFromYoutube(connection, link);
-	     	})
-	     	.catch(console.log);
-	    
-	}
+                })
+                .catch(console.log);
+
+        }
     }
-    
-    if(command === "stop") {
-	message.member.voiceChannel.leave()
+
+    if (command === "stop") {
+        message.member.voiceChannel.leave();
     }
-    
-    if(command === "ping") {
-	const m = await message.channel.send("Ping?");
-	m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
-	break;
-    case "play":
-	const link = args.join(" ");
-	playAudioFromYoutube(client.voiceConnections.first(), link, message.member.voiceChannelID, 'yes');
-	break;
-    case "strat":
-	const position = args.join(" ");
-	message.channel.send(stratRoulette(position));
-	break;
+
+    if (command === "ping") {
+        //const m = await message.channel.send("Ping?");
+        //m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
+        //break;
+        //   case "play":
+        //const link = args.join(" ");
+        //playAudioFromYoutube(client.voiceConnections.first(), link, message.member.voiceChannelID, 'yes');
+        //break;
+        //   case "strat":
+        //const position = args.join(" ");
+        //message.channel.send(stratRoulette(position));
+        //break;
     }
 });
 
@@ -132,20 +133,49 @@ function stratRoulette(position) {
     var min = 1;
     var max = 0;
     if (position === "attack") {
-	max = 21;
+        max = 21;
     } else if (position === "defense") {
-	max = 32;
+        max = 32;
     }
+
     var random = Math.floor(Math.random() * (+max - +min)) + +min;
     let strat = "";
+
     if (position === "attack") {
-	strat = attackStrats[random];
-	console.log(strat);
+        strat = attackStrats[random];
+        console.log(strat);
     } else if (position === "defense") {
-	strat = defenseStrats[random];
+        strat = defenseStrats[random];
     }
     return strat.name;
 }
+
+
+async function playAudioFromYoutube(connection, link) {
+    console.log(connection);
+    console.log("attempting to play");
+    //const stream = ytdl(link, { filter: 'audioonly' });
+    //const streamOptions = { volume: 0.9, passes: 5 };
+    //console.log(stream);
+    //stream.on('error', console.error);
+    //connection.playStream(ytdl(link, { filter: 'audioonly' }), streamOptions).on("end", end => {
+    //    console.log("finished");
+    //});
+    //const dispatcher = 
+    //dispatcher.on("end", end => {
+    //    console.log("finished");
+    //});
+
+    const songInfo = await ytdl.getInfo(link);
+    const song = {
+        title: songInfo.title,
+        url: songInfo.video_url
+    };
+
+    const dispatcher = connection.playStream(ytdl(song.url));
+
+}
+
 
 // async function playAudioFromYoutube(connection, link, channelId, isCommand) {
 //     console.log("IN YT");
@@ -170,7 +200,7 @@ function stratRoulette(position) {
 // 	const dispatcher = connection.playBroadcast(broadcast);
 // 	console.log("after dis");
 // 	playingAudio = true;
-	
+
 // 	dispatcher.on("end", end => {
 // 	    console.log("in end");
 // 	    ytAudioQueue.shift();

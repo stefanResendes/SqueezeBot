@@ -33,3 +33,18 @@ used this example https://discordjs.guide/popular-topics/miscellaneous-examples.
 followed some of the discord.js example
 
 https://github.com/discordjs/discord.js
+
+
+
+download newest npm
+make sure its that version with node -v
+
+npm install discordjs/discord.js
+--------lol dont know if i did these------
+npm install discordjs/discord.js node-opus
+npm install discordjs/discord.js opusscript
+------------------------------------------
+npm install --save ytdl-core
+npm install --save node-opus
+npm install ffmpeg-binaries --save
+

@@ -50,7 +50,7 @@ client.on('message', message => {
 playYoutube = (voiceChannel, link) => {
     queue.isPlaying = true;
     voiceChannel.join().then(connection => {
-        const stream = ytdl(link, { filter: 'audioonly', quality: 'highestaudio', volume: '.75' });
+        const stream = ytdl(link, { quality: 'highestaudio', volume: '.75', highWaterMark: 1024 * 1024 * 10 }); //filter: 'audioonly', 
         voiceChannel.dispatcher = connection.play(stream);
 
         voiceChannel.dispatcher.on('end', () => {
