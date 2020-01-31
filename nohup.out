@@ -1,0 +1,100 @@
+Bot has started, with 43 users, in 19 channels of 1 guilds.
+Bot has started, with 43 users, in 19 channels of 1 guilds.
+Uncaught Promise Rejection RangeError: Source is too large
+    at Uint16Array.set (<anonymous>)
+    at OpusScript.encode (/home/pi/projects/SqueezeBot/node_modules/opusscript/index.js:51:16)
+    at Encoder._encode (/home/pi/projects/SqueezeBot/node_modules/prism-media/src/opus/Opus.js:54:25)
+    at Encoder._transform (/home/pi/projects/SqueezeBot/node_modules/prism-media/src/opus/Opus.js:137:30)
+    at Encoder.Transform._read (_stream_transform.js:189:10)
+    at Encoder.Transform._write (_stream_transform.js:177:12)
+    at doWrite (_stream_writable.js:431:12)
+    at writeOrBuffer (_stream_writable.js:415:5)
+    at Encoder.Writable.write (_stream_writable.js:305:11)
+    at VolumeTransformer.ondata (_stream_readable.js:727:22)
+Uncaught Promise Rejection Error [VOICE_CONNECTION_TIMEOUT]: Connection not established within 15 seconds.
+    at VoiceConnection.authenticateFailed (/home/pi/projects/SqueezeBot/node_modules/discord.js/src/client/voice/VoiceConnection.js:300:26)
+    at /home/pi/projects/SqueezeBot/node_modules/discord.js/src/client/voice/VoiceConnection.js:322:18
+    at Timeout.<anonymous> (/home/pi/projects/SqueezeBot/node_modules/discord.js/src/client/BaseClient.js:83:7)
+    at listOnTimeout (internal/timers.js:531:17)
+    at processTimers (internal/timers.js:475:7) {
+  [Symbol(code)]: 'VOICE_CONNECTION_TIMEOUT'
+}
+Uncaught Promise Rejection RangeError: Source is too large
+    at Uint16Array.set (<anonymous>)
+    at OpusScript.encode (/home/pi/projects/SqueezeBot/node_modules/opusscript/index.js:51:16)
+    at Encoder._encode (/home/pi/projects/SqueezeBot/node_modules/prism-media/src/opus/Opus.js:54:25)
+    at Encoder._transform (/home/pi/projects/SqueezeBot/node_modules/prism-media/src/opus/Opus.js:137:30)
+    at Encoder.Transform._read (_stream_transform.js:189:10)
+    at Encoder.Transform._write (_stream_transform.js:177:12)
+    at doWrite (_stream_writable.js:431:12)
+    at writeOrBuffer (_stream_writable.js:415:5)
+    at Encoder.Writable.write (_stream_writable.js:305:11)
+    at VolumeTransformer.ondata (_stream_readable.js:727:22)
+Uncaught Promise Rejection Error [VOICE_CONNECTION_TIMEOUT]: Connection not established within 15 seconds.
+    at VoiceConnection.authenticateFailed (/home/pi/projects/SqueezeBot/node_modules/discord.js/src/client/voice/VoiceConnection.js:300:26)
+    at /home/pi/projects/SqueezeBot/node_modules/discord.js/src/client/voice/VoiceConnection.js:322:18
+    at Timeout.<anonymous> (/home/pi/projects/SqueezeBot/node_modules/discord.js/src/client/BaseClient.js:83:7)
+    at listOnTimeout (internal/timers.js:531:17)
+    at processTimers (internal/timers.js:475:7) {
+  [Symbol(code)]: 'VOICE_CONNECTION_TIMEOUT'
+}
+Uncaught Promise Rejection RangeError: Source is too large
+    at Uint16Array.set (<anonymous>)
+    at OpusScript.encode (/home/pi/projects/SqueezeBot/node_modules/opusscript/index.js:51:16)
+    at Encoder._encode (/home/pi/projects/SqueezeBot/node_modules/prism-media/src/opus/Opus.js:54:25)
+    at Encoder._transform (/home/pi/projects/SqueezeBot/node_modules/prism-media/src/opus/Opus.js:137:30)
+    at Encoder.Transform._read (_stream_transform.js:189:10)
+    at Encoder.Transform._write (_stream_transform.js:177:12)
+    at doWrite (_stream_writable.js:431:12)
+    at writeOrBuffer (_stream_writable.js:415:5)
+    at Encoder.Writable.write (_stream_writable.js:305:11)
+    at VolumeTransformer.ondata (_stream_readable.js:727:22)
+Uncaught Promise Rejection Error [VOICE_CONNECTION_TIMEOUT]: Connection not established within 15 seconds.
+    at VoiceConnection.authenticateFailed (/home/pi/projects/SqueezeBot/node_modules/discord.js/src/client/voice/VoiceConnection.js:300:26)
+    at /home/pi/projects/SqueezeBot/node_modules/discord.js/src/client/voice/VoiceConnection.js:322:18
+    at Timeout.<anonymous> (/home/pi/projects/SqueezeBot/node_modules/discord.js/src/client/BaseClient.js:83:7)
+    at listOnTimeout (internal/timers.js:531:17)
+    at processTimers (internal/timers.js:475:7) {
+  [Symbol(code)]: 'VOICE_CONNECTION_TIMEOUT'
+}
+Bot has started, with 42 users, in 19 channels of 1 guilds.
+Bot has started, with 42 users, in 19 channels of 1 guilds.
+Bot has started, with 42 users, in 19 channels of 1 guilds.
+Bot has started, with 42 users, in 19 channels of 1 guilds.
+Bot has started, with 42 users, in 20 channels of 1 guilds.
+Bot has started, with 42 users, in 20 channels of 1 guilds.
+/home/pi/projects/SqueezeBot/discordjsguide.js:59
+		stream.clear();
+		       ^
+
+TypeError: stream.clear is not a function
+    at StreamDispatcher.<anonymous> (/home/pi/projects/SqueezeBot/discordjsguide.js:59:10)
+    at StreamDispatcher.emit (events.js:210:5)
+    at StreamDispatcher.<anonymous> (/home/pi/projects/SqueezeBot/node_modules/discord.js/src/client/voice/dispatcher/StreamDispatcher.js:72:12)
+    at StreamDispatcher.emit (events.js:215:7)
+    at finishMaybe (_stream_writable.js:656:14)
+    at _stream_writable.js:634:5
+    at StreamDispatcher._final (/home/pi/projects/SqueezeBot/node_modules/discord.js/src/client/voice/dispatcher/StreamDispatcher.js:252:5)
+    at callFinal (_stream_writable.js:627:10)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21)
+Bot has started, with 42 users, in 20 channels of 1 guilds.
+/home/pi/projects/SqueezeBot/discordjsguide.js:59
+		stream.clear();
+		       ^
+
+TypeError: stream.clear is not a function
+    at StreamDispatcher.<anonymous> (/home/pi/projects/SqueezeBot/discordjsguide.js:59:10)
+    at StreamDispatcher.emit (events.js:210:5)
+    at StreamDispatcher.<anonymous> (/home/pi/projects/SqueezeBot/node_modules/discord.js/src/client/voice/dispatcher/StreamDispatcher.js:72:12)
+    at StreamDispatcher.emit (events.js:215:7)
+    at finishMaybe (_stream_writable.js:656:14)
+    at _stream_writable.js:634:5
+    at StreamDispatcher._final (/home/pi/projects/SqueezeBot/node_modules/discord.js/src/client/voice/dispatcher/StreamDispatcher.js:252:5)
+    at callFinal (_stream_writable.js:627:10)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21)
+Bot has started, with 42 users, in 20 channels of 1 guilds.
+Bot has started, with 42 users, in 20 channels of 1 guilds.
+Bot has started, with 42 users, in 20 channels of 1 guilds.
+Bot has started, with 44 users, in 20 channels of 1 guilds.
+Bot has started, with 46 users, in 21 channels of 1 guilds.
+Bot has started, with 46 users, in 21 channels of 1 guilds.

@@ -35,5 +35,7 @@
     "zlib-sync": "^0.1.5",
     "zucc": "^0.1.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "nodemon": "^2.0.1"
+  }
 }

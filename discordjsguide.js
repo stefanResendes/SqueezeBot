@@ -29,7 +29,7 @@ client.on('message', message => {
     const voiceChannel = message.member.voice.channel;
 
     if (!voiceChannel) {
-        return message.reply('please join a voice channel first!');
+        //return message.reply('please join a voice channel first!');
     }
 
     switch (command) {
@@ -43,6 +43,8 @@ client.on('message', message => {
         case "stop":
             stopMusic(voiceChannel);
             break;
+	default:
+	    break;
     }
 
 });
@@ -50,8 +52,8 @@ client.on('message', message => {
 playYoutube = (voiceChannel, link) => {
     queue.isPlaying = true;
     voiceChannel.join().then(connection => {
-        const stream = ytdl(link, { quality: 'highestaudio', volume: '.75', highWaterMark: 1024 * 1024 * 10 }); //filter: 'audioonly', 
-        voiceChannel.dispatcher = connection.play(stream);
+        const stream = ytdl(link, { quality: 'highestaudio', volume: '.75', highWaterMark: 1 }); //filter: 'audioonly', 
+        voiceChannel.dispatcher = connection.play(stream); //1024 * 1024 * 10
 
         voiceChannel.dispatcher.on('end', () => {
             queue.songList.length > 0 ? playYoutube(voiceChannel, queue.songList.shift()) : stopMusic(voiceChannel);
